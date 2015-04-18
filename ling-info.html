@@ -1,0 +1,85 @@
+<head>
+  <title>ling-info</title>
+  <meta charset='utf8' />
+
+  <link rel='stylesheet' href='http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css'>
+</head>
+
+<body>
+  <div class='container'>
+      <header>
+          <h2>Ling-Lunch信息公告板</h2>
+          <p class='intro'>在这里，你可以浏览别人上传的语言学讲座、会议、招聘信息，也可以自己{{> createButton}}</p>
+
+          {{> createOne}}
+      </header>
+
+      <ul>
+          {{#each messages}}
+            {{> message}}
+          {{/each}}
+      </ul>
+  </div>
+  <p class='copyright'>&copy; 2015 语言学午餐</p>
+
+  <script language="javascript" type="text/javascript">
+    //禁用Enter键表单自动提交
+    document.onkeydown = function(event) {
+        var target, code, tag;
+        if (!event) {
+            event = window.event; //针对ie浏览器
+            target = event.srcElement;
+            code = event.keyCode;
+            if (code == 13) {
+                tag = target.tagName;
+                if (tag == "TEXTAREA") { return true; }
+                else { return false; }
+                }
+            }
+            else {
+                target = event.target; //针对遵循w3c标准的浏览器，如Firefox
+                code = event.keyCode;
+                if (code == 13) {
+                    tag = target.tagName;
+                    if (tag == "INPUT") { return false; }
+                    else { return true; }
+                }
+            }
+        };
+</script>
+</body>
+
+<template name='message'>
+    {{#if place}}
+        <li>{{info}} @{{place}}</li>
+    {{else}}
+        <li>{{info}}</li>
+    {{/if}}
+</template>
+
+<template name='createButton'>
+    {{#if openBox}}
+        分享一个
+    {{else}}
+        <a class='btn btn-primary open-new'>分享一个</a>
+    {{/if}}
+</template>
+
+<template name='createOne'>
+    {{#if openBox}}
+        <div class='new-info'>
+            <p>Ling-Lunch (语言学午餐)及其运营方<b>不对此处信息的真实性、准确性承担责任</b>，我们建议您
+                向有关方面进行核实。</p>
+            <p>Ling-Lunch (语言学午餐)及其运营方保留<b>在不通知信息发布者的情况下，对所有发布信息
+                进行修改及删除之权利</b>。</p>
+            <p>您在这里发布信息，表明您许可Ling-Lunch (语言学午餐)将您的信息用于公众平台推送。</p>
+            <form class='submit-info'>
+                <input type='text' name='text' placeholder='在这里输入新的信息' />
+                <input type='text' name='place' placeholder='在这里输入地点' />
+                <input class='btn btn-primary' type='submit' value='确定'/>
+            </form>
+                <button class='btn btn-default cancel-new'>取消</button>
+
+        </div>
+    {{/if}}
+</template>
